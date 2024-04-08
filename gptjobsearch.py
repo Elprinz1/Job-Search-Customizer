@@ -1,27 +1,9 @@
 import os
 import streamlit as st
-
-from pandasai.responses.response_parser import ResponseParser
 from pandasai import SmartDataframe
 from pandasai.llm import OpenAI
-from jobspy import scrape_jobs
-
-
-class StreamlitResponse(ResponseParser):
-    def __init__(self, context) -> None:
-        super().__init__(context)
-
-    def format_dataframe(self, result):
-        st.dataframe(result["value"])
-        return
-
-    def format_plot(self, result):
-        st.image(result["value"])
-        return
-
-    def format_other(self, result):
-        st.write(result["value"])
-        return
+from utils import *
+from classes import *
 
 
 st.title("🔍 Project Prince Gets a Job")
@@ -101,6 +83,5 @@ if query and 'jobs' in st.session_state:
             "response_parser": StreamlitResponse,
         },
     )
-
     answer = query_engine.chat(query)
     st.write(answer)
